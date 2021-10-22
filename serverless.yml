@@ -1,0 +1,86 @@
+# Welcome to Serverless!
+#
+# This file is the main config file for your service.
+# It's very minimal at this point and uses default values.
+# You can always add more config options for more control.
+# We've included some commented out config examples here.
+# Just uncomment any of them to get that config option.
+#
+# For full config options, check the docs:
+#    docs.serverless.com
+#
+# Happy Coding!
+
+service: pets-deli-task
+# app and org for use with dashboard.serverless.com
+#app: your-app-name
+#org: your-org-name
+
+# You can pin your service to only deploy with a specific Serverless version
+# Check out our docs for more details
+frameworkVersion: "2"
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  lambdaHashingVersion: 20201221
+
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - "dynamodb:PutItem"
+      Resource: "*"
+
+  apiGateway:
+    apiKeys:
+      - free:
+          - myFreeKey
+    usagePlan:
+      - free:
+          quota:
+            limit: 500
+            offset: 1
+            period: MONTH
+          throttle:
+            burstLimit: 2
+            rateLimit: 1
+
+# you can define service wide environment variables here
+  environment:
+    EVENT_TABLE: ${self:service}-events
+
+functions:
+  analyticsEvent:
+    handler: src/functions/analytics/handler.analyticsEvent
+    events:
+      - http:
+          path: /v1/analytics-event
+          method: post
+          integration: lambda
+          request:
+            schemas:
+              application/json: ${file(src/schemas/createEvent.json)}
+            parameters:
+              headers:
+                X-Api-Key: true
+                
+resources:
+  Resources:
+    EventDynomodbTable:
+      Type: "AWS::DynamoDB::Table"
+      DeletionPolicy: Retain
+      Properties:
+        AttributeDefinitions:
+          - AttributeName: "id"
+            AttributeType: "S"
+        KeySchema:
+          - AttributeName: "id"
+            KeyType: "HASH"
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: ${self:provider.environment.EVENT_TABLE}
+
+plugins:
+  - serverless-plugin-typescript
+

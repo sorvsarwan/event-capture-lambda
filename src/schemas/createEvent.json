@@ -1,0 +1,27 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "CreateEventSchema",
+  "type": "object",
+  "additionalProperties":false,
+  "properties": {
+    "eventType": {
+      "type": "string",
+      "enum": ["buttonclick", "navigationclick"],
+      "description": "eventType is required"
+    },
+    "uuid": {
+      "type": "string",
+      "format": "uuid",
+      "pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$",
+      "description": "uuid is required"
+    },
+    "eventSource": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 50,
+      "pattern": "^[a-zA-Z0-9_-]+$",
+      "description": "eventSource is required"
+    }
+  },
+  "required": ["eventType", "uuid", "eventSource"]
+}
