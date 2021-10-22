@@ -7,7 +7,7 @@
 - [Serverless](https://www.serverless.com)
 
 ### 2. Configration
-[MAC OS]
+- [MAC OS]
     - Open Terminal and go to your home directory (Command: cd ~).
     - Create new directory with name of [.aws] and move inside the same directory.
     - Create config file with name of [config]
