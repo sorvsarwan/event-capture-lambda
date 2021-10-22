@@ -12,14 +12,14 @@
     - Create new directory with name of [.aws] and move inside the same directory.
     - Create config file with name of [config]
         - Add your default config like mention below.
-            [default]
-            region=us-east-1
-            output=json 
+            - [default]
+            - region=us-east-1
+            - output=json
     - Create credentials files with name of [credentials]
         - Go to AWS console and genrate your access_key and secret_access_key and into the file like mention below.
-            [default]
-            aws_access_key_id=XXXXXXXXXX
-            aws_secret_access_key=XXXXXXXXXXXXXXXXXXXX
+            - [default]
+            - aws_access_key_id=XXXXXXXXXX
+            - aws_secret_access_key=XXXXXXXXXXXXXXXXXXXX
 
 ### 3. Installation
 
